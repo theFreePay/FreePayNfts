@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="fa" dir="rtl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سیستم کد معرف</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: Tahoma, sans-serif;
+        }
+        
+        body {
+            background: #f0f2f5;
+            padding: 20px;
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+        
+        .container {
+            background: white;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+            width: 100%;
+            max-width: 400px;
+            text-align: center;
+        }
+        
+        h1 {
+            color: #333;
+            margin-bottom: 25px;
+            font-size: 22px;
+        }
+        
+        .ref-box {
+            background: linear-gradient(135deg, #0088cc 0%, #0055cc 100%);
+            color: white;
+            padding: 25px;
+            border-radius: 10px;
+            margin: 20px 0;
+        }
+        
+        .ref-number {
+            font-size: 60px;
+            font-weight: bold;
+            margin: 15px 0;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+        
+        .btn {
+            background: #4CAF50;
+            color: white;
+            border: none;
+            padding: 12px 25px;
+            border-radius: 8px;
+            font-size: 16px;
+            cursor: pointer;
+            margin: 10px 5px;
+            width: 100%;
+            transition: 0.3s;
+        }
+        
+        .btn:hover {
+            background: #45a049;
+        }
+        
+        .btn-copy {
+            background: #2196F3;
+        }
+        
+        .btn-copy:hover {
+            background: #1976D2;
+        }
+        
+        .link-box {
+            background: #f8f9fa;
+            border: 2px dashed #ddd;
+            padding: 12px;
+            border-radius: 8px;
+            margin: 15px 0;
+            word-break: break-all;
+            font-size: 14px;
+            display: none;
+        }
+        
+        .info {
+            color: #666;
+            font-size: 14px;
+            margin-top: 15px;
+        }
+        
+        .new-number {
+            color: #ff9800;
+            font-weight: bold;
+        }
+        
+        .telegram-btn {
+            background: #0088cc;
+            color: white;
+            text-decoration: none;
+            display: block;
+            padding: 15px;
+            border-radius: 8px;
+            margin: 15px 0;
+            font-weight: bold;
+            font-size: 18px;
+        }
+        
+        .telegram-btn:hover {
+            background: #0077b5;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <h1>🤖 کد معرف ربات</h1>
+        
+        <div class="ref-box">
+            <div>آخرین کد استفاده شده:</div>
+            <div class="ref-number" id="lastNum">1</div>
+            <div>این عدد آخرین کد رفرال است</div>
+        </div>
+        
+        <a href="https://t.me/Hhfbjhvbjhbot" class="telegram-btn" target="_blank">
+            📲 ورود به ربات تلگرام
+        </a>
+        
+        <button class="btn" onclick="newCode()">🎲 ساخت کد جدید</button>
+        
+        <div class="link-box" id="linkBox"></div>
+        
+        <button class="btn btn-copy" onclick="copyLink()" style="display:none;" id="copyBtn">📋 کپی لینک</button>
+        
+        <div class="info">
+            هر کاربری که با لینک شما وارد شود، این عدد را می‌بیند<br>
+            کد: <span id="displayCode">1</span>
+        </div>
+    </div>
+
+    <script>
+        // وقتی صفحه لود شد
+        window.onload = function() {
+            // اول چک کن ببین توی لینک ref داره یا نه
+            let url = new URL(window.location.href);
+            let ref = url.searchParams.get("ref");
+            
+            if(ref) {
+                // اگر ref در URL بود
+                updateDisplay(ref);
+            } else {
+                // اگر ref نبود، از localStorage بخون
+                let savedNum = localStorage.getItem("lastRefNumber");
+                if(savedNum) {
+                    updateDisplay(savedNum);
+                }
+            }
+            
+            // نمایش کد در پایین
+            document.getElementById('displayCode').textContent = 
+                document.getElementById('lastNum').textContent;
+        };
+        
+        function updateDisplay(num) {
+            document.getElementById('lastNum').textContent = num;
+            document.getElementById('lastNum').className = "ref-number new-number";
+            document.getElementById('displayCode').textContent = num;
+            
+            // ذخیره در localStorage
+            localStorage.setItem("lastRefNumber", num);
+            
+            // اضافه کردن کد به لینک تلگرام (اختیاری - فقط نمایش)
+            updateTelegramLink(num);
+        }
+        
+        // ساخت کد جدید
+        function newCode() {
+            // یک عدد تصادفی بین 1 تا 1000
+            let newNum = Math.floor(Math.random() * 1000) + 1;
+            
+            updateDisplay(newNum);
+            
+            // ساخت لینک صفحه با کد جدید
+            let currentUrl = "https://t.me/Hhfbjhvbjhbot";
+            let refLink = currentUrl + "?ref=" + newNum;
+            
+            // نمایش لینک
+            document.getElementById('linkBox').textContent = refLink;
+            document.getElementById('linkBox').style.display = "block";
+            document.getElementById('copyBtn').style.display = "block";
+            
+            // پیام
+            setTimeout(() => {
+                alert("✅ کد جدید ساخته شد: " + newNum + 
+                      "\n\nلینک برای کپی آماده است\n" +
+                      "این کد را در ربات تلگرام وارد کنید");
+            }, 100);
+        }
+        
+        // آپدیت لینک تلگرام (فقط برای نمایش)
+        function updateTelegramLink(code) {
+            // این فقط نمایشیه، چون تلگرام پارامترهای دلخواه قبول نمیکنه
+            let telegramBtn = document.querySelector('.telegram-btn');
+            telegramBtn.innerHTML = `📲 ورود به ربات تلگرام<br><small>کد: ${code}</small>`;
+        }
+        
+        // کپی کردن لینک
+        function copyLink() {
+            let linkText = document.getElementById('linkBox').textContent;
+            
+            // روش ساده برای کپی
+            navigator.clipboard.writeText(linkText)
+                .then(() => {
+                    alert("✅ لینک کپی شد!\n\n" + linkText);
+                })
+                .catch(() => {
+                    // روش جایگزین برای مرورگرهای قدیمی
+                    let textArea = document.createElement("textarea");
+                    textArea.value = linkText;
+                    document.body.appendChild(textArea);
+                    textArea.select();
+                    document.execCommand("copy");
+                    document.body.removeChild(textArea);
+                    alert("✅ لینک کپی شد!\n\n" + linkText);
+                });
+        }
+        
+        // ذخیره کد هنگام کلیک روی لینک تلگرام
+        document.querySelector('.telegram-btn').addEventListener('click', function(e) {
+            let currentCode = document.getElementById('lastNum').textContent;
+            
+            // ذخیره در حافظه موقت
+            sessionStorage.setItem('telegram_ref_code', currentCode);
+            
+            // پیام
+            alert("کد معرف شما: " + currentCode + 
+                  "\n\nلطفاً این کد را در ربات تلگرام وارد کنید");
+        });
+    </script>
+</body>
+</html>
