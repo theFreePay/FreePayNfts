@@ -16,18 +16,18 @@ const a = user.id;
 
 async function telebot() {
 
-  // const { data2, error2 } = await _supabase
-  //   .from('telusersinfo')
-  //   .upsert({
-  //     id: user.id,
-  //     name: user.first_name,
-  //     username: user.username,
-  //     premium: user.is_premium,
+   const { data2, error2 } = await _supabase
+     .from('telusersinfo')
+     .upsert({
+       id: user.id,
+       name: user.first_name,
+       username: user.username,
+       premium: user.is_premium,
 
-  //   },
-  //     { onConflict: ['id'] }
-  //   )
-  //   .select()
+     },
+       { onConflict: ['id'] }
+     )
+     .select()
   
   
   
@@ -914,8 +914,10 @@ async function FriendFinder() {
     document.getElementById('Friendsviewerbottomsec').appendChild(InviteFriendButton);
     document.getElementById('Friendsviewerbottomsec').appendChild(AlreadyDiv);
     document.getElementById('InviteMyFriendsBtnId').onclick = (() => {
-      window.location.href = `https://t.me/share/url?text=Hey%20my%20friend!%F0%9F%8E%AE%0AJoin%20the%20game%20with%20my%20invite%20link%20and%20get%20extra%20coins%20%F0%9F%AA%99%0AReferral%20Code%3A%0A${a}%0AStart%20now!%F0%9F%91%87%0Ahttps%3A%2F%2Ft.me%2FTheFreePayBot%2FFreePayShop`;
-    })
+      window.location.href = `https://t.me/share/url?text=🎲%20Play%20games%20and%20become%20one%20of%20the%20lucky%20winners%20of%20Telegram%20gifts%20%26%20amazing%20prizes!%20Enter%20now%20via%20the%20link%20below%20and%20win%20big!%20🚀🌃%0A%0A👉%20https://t.me/TheFreePayBot/FreePayShop?startapp=${a}`;
+})
+
   } FriendLenghFinder();
+
 
 })
